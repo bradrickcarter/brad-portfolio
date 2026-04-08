@@ -955,7 +955,7 @@ export default function BradPortfolio() {
         </div>
 
         {!isMobile && (
-          <a href="/assets/Brad-Carter-Resume.pdf" download="Brad-Carter-Resume.pdf" className="nav-link" style={{
+          <a href="/assets/Brad-Carter-Resume-spd.pdf" download="Brad-Carter-Resume-spd.pdf" className="nav-link" style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: 14,
             fontWeight: 500,
