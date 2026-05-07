@@ -20,7 +20,6 @@ const PROJECTS = {
       "Enrolled patient companion inside MyBSWHealth for newly diagnosed heart failure patients. Daily weight and blood pressure tracking with clinical alert thresholds, symptom triage, and a plain-language education library.",
     tags: ["ui/ux research", "design system", "mobile design", "web design", "responsive design", "native ios design"],
     hero: { type: "video", src: "/assets/hf-track-weight.mp4" },
-    heroLabel: "React App · Prototype built with Claude Code",
     titleIcon: "/assets/heart-Illustration.png",
     illustration: "/assets/ni-exclamation-diamond.svg",
     sections: [
@@ -84,7 +83,6 @@ const PROJECTS = {
       "Medication management flow for a patient mobile app. Surfaced prescription status, side effects, and pharmacy information in a single view — with guided remove and restore flows to reduce medication errors.",
     tags: ["ui/ux research", "design system", "mobile design", "web design", "responsive design", "native ios design"],
     hero: { type: "video", src: "/assets/manage-medications.mp4" },
-    heroLabel: "React App · Prototype built with Claude Code",
     illustration: "/assets/ni-exclamation-diamond.svg",
     sections: [
       {
@@ -136,7 +134,6 @@ const PROJECTS = {
     titleIcon: "/assets/li-icon.svg",
     tags: ["ui/ux research", "design system", "mobile design", "web design", "responsive design", "native ios design"],
     hero: { type: "video", src: "/assets/health-insights.mp4" },
-    heroLabel: "React App · Prototype built with Claude Code",
     illustration: "/assets/ni-exclamation-diamond.svg",
     sections: [
       {
@@ -453,7 +450,7 @@ export default function ProductDetail() {
           borderRadius: 20,
           overflow: "hidden",
           width: "100%",
-          marginBottom: project.heroLabel ? 12 : 80,
+          marginBottom: 80,
         }}>
           {project.hero.type === "video" ? (
             <video
@@ -463,6 +460,7 @@ export default function ProductDetail() {
               muted
               playsInline
               controls
+              preload="auto"
               style={{ width: "100%", display: "block" }}
             />
           ) : (
@@ -473,20 +471,6 @@ export default function ProductDetail() {
             />
           )}
         </div>
-
-        {/* Hero label */}
-        {project.heroLabel && (
-          <p style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 16,
-            fontWeight: 400,
-            fontStyle: "italic",
-            color: "rgba(255,255,255,0.45)",
-            marginBottom: 80,
-          }}>
-            {project.heroLabel}
-          </p>
-        )}
 
         {/* ─── Sections (e.g. The Problem) ─────────────────── */}
         {project.sections.map((section, i) => (
