@@ -14,6 +14,50 @@ function useIsMobile(breakpoint = 768) {
 
 // ─── Project Data ─────────────────────────────────────────────────
 const PROJECTS = {
+  "csafe-smart-repositioning-engine": {
+    title: "CSafe Smart Repositioning Engine",
+    description:
+      "AI-powered container repositioning tool for CSafe Global's internal logistics team. Demand forecasting, strategy-based recommendations, and a feedback loop that gets smarter every time an operator makes a call.",
+    tags: ["ai/ux", "product strategy", "enterprise design", "data visualization", "web app"],
+    hero: { type: "video", src: "/assets/csafe-demo.mov" },
+    sections: [
+      {
+        label: "The Problem",
+        image: "/assets/csafe-user-journey-image.png",
+        body: `CSafe moves temperature-controlled pharmaceutical containers across 75+ locations in 185 countries. When a shipment needs a RAP unit in Singapore, that unit has to be there. If it isn't, you don't get a second chance — pharmaceutical shipments don't wait.\n\nThe repositioning decisions that prevented those failures were being made manually. Spreadsheets. Tribal knowledge. Reactive calls when a depot flagged a shortage that was already happening.\n\nThe cost of that process showed up two ways. Direct — unnecessary air freight because there wasn't enough lead time to ship by ocean. Indirect — containers sitting idle at low-demand hubs while high-demand hubs ran short. Both were expensive. Neither was visible until something went wrong.\n\nThe ask: build a system that sees the shortage before it happens and tells the operations team what to do about it — with enough context that they can trust it.`,
+      },
+      {
+        label: "The Solution",
+        image: "/assets/csafe-options-image.png",
+        imageLeft: true,
+        body: `Three distinct problems had to work together: forecast the demand, recommend the move, and learn from every decision the team made.\n\nThey also had to work for operations specialists who are managing dozens of lanes simultaneously and don't have time to interrogate a model. The system had to be fast to act on and easy to trust.\n\nThree strategies, not one answer — the first design decision was the most important: don't surface a single recommendation. Surface a choice.\n\nThe model generates three strategy packs — Cost-Optimized, Fulfillment-Optimized, and Hybrid. Each shows total estimated cost and what it's trading off. An operator who needs to hit a budget ceiling picks differently than one managing a high-priority pharma lane. The system respects that. It gives them the tradeoffs, not just a number.`,
+      },
+      {
+        label: "Rationale You Can Actually Read",
+        image: "/assets/csafe-expand-row-image.png",
+        body: `Every recommended move is expandable. Inside: plain-language rationale, the demand evidence behind the forecast, a confidence score, and a projection of what happens if the move isn't executed. Not buried in a sidebar. One click, inline, right in the row.\n\nThe confidence score wasn't decorative. It told operators when to lean in and when to verify. An 85% confidence move reads differently than a 52% one — and both needed to be actionable without requiring a data science degree to interpret.`,
+      },
+      {
+        label: "Friction Where It Matters",
+        image: "/assets/csafe-modal-image.png",
+        imageLeft: true,
+        body: `Accepting a recommendation is one click and an assignment. Rejecting one requires a reason code. That asymmetry was intentional.\n\nEvery decline is a training signal. Timing conflict. Destination capacity issue. Forecast unreliable. Those reason codes feed directly back into the model. The system gets better every time an operator pushes back — and pushback without a reason is just noise.`,
+      },
+      {
+        label: "A Forecast You Can Edit",
+        body: `The demand forecast isn't read-only. Operators know things the model doesn't — a customer relationship, a shipment that's not in the system yet, a depot that's temporarily constrained. The forecast is editable, with a full edit log, and the statistical model runs separately alongside the modified version so you can always see what the AI said before the human touched it.`,
+      },
+    ],
+    whatILearned: {
+      label: "What I Learned",
+      body: `The hardest design problem on this project wasn't the interface. It was the trust gap.\n\nAn operations specialist who's been managing these lanes for years has instincts the model can't replicate — yet. Asking them to accept a recommendation from a system they've never used before, on a move that costs real money, is a significant ask. The rationale panel wasn't a nice-to-have. It was the thing that made the whole system usable. Every operator needed to be able to read a recommendation and say "yeah, that makes sense" before they'd click accept.\n\nThe feedback loop changed how I thought about the decline flow. Early on, the reason code felt like a form requirement — something to log for compliance. The more we mapped it out, the more it became clear it was the most valuable interaction in the product. A specialist who rejects a recommendation and explains why is teaching the model something that no amount of historical data could. The form wasn't overhead. It was the R&D budget.`,
+    },
+    results: {
+      label: "The Results",
+      body: `Designed end-to-end for pilot: full use case documentation, wireframe flow, recommendation engine UX, forecast module, and feedback loop. Scoped explicitly to the internal operations team, with a clear Phase 2 path toward automated execution.\n\nThe metric that will matter most post-pilot: recommendation acceptance rate. A system operators trust gets used. A system they don't gets abandoned regardless of how accurate the model is. Every design decision — the three-strategy entry point, the inline rationale, the asymmetric friction on declines — was built toward that number.`,
+      stats: [],
+    },
+  },
   "heart-failure-care-companion": {
     title: "Heart Failure Care Companion",
     description:
@@ -473,10 +517,32 @@ export default function ProductDetail() {
         </div>
 
         {/* ─── Sections (e.g. The Problem) ─────────────────── */}
-        {project.sections.map((section, i) => (
-          <div key={i} style={{ marginBottom: 72, display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: "flex-start", gap: isMobile ? 24 : 48 }}>
+        {project.sections.map((section, i) => {
+          const imageEl = section.image && !isMobile ? (
+            <div style={{ flexShrink: 0, width: 560, background: "#f1f1f1", borderRadius: 20, overflow: "hidden" }}>
+              <img src={section.image} alt={section.label} style={{ width: "100%", display: "block" }} />
+            </div>
+          ) : (!section.image && project.illustration && !isMobile) ? (
+            <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{
+                width: 348,
+                height: 348,
+                borderRadius: "50%",
+                background: "#222",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <img
+                  src={project.illustration}
+                  alt="illustration"
+                  style={{ width: 225, height: 225, objectFit: "contain", animation: "float 4s ease-in-out infinite" }}
+                />
+              </div>
+            </div>
+          ) : null;
 
-            {/* Left: label + body */}
+          const textEl = (
             <div style={{ flex: 1, maxWidth: 760 }}>
               <div style={{ marginBottom: 24 }}>
                 <p style={{
@@ -505,31 +571,14 @@ export default function ProductDetail() {
                 ))}
               </div>
             </div>
+          );
 
-            {/* Right: floating illustration */}
-            {project.illustration && !isMobile && (
-              <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {/* Circle stays static */}
-                <div style={{
-                  width: 348,
-                  height: 348,
-                  borderRadius: "50%",
-                  background: "#222",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}>
-                  {/* Only the illustration floats */}
-                  <img
-                    src={project.illustration}
-                    alt="illustration"
-                    style={{ width: 225, height: 225, objectFit: "contain", animation: "float 4s ease-in-out infinite" }}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
+          return (
+            <div key={i} style={{ marginBottom: 148, display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: "flex-start", gap: isMobile ? 24 : 48 }}>
+              {section.imageLeft ? <>{imageEl}{textEl}</> : <>{textEl}{imageEl}</>}
+            </div>
+          );
+        })}
       </div>
 
       {/* ─── WHAT I WAS SOLVING FOR ──────────────────────────── */}
@@ -816,19 +865,21 @@ export default function ProductDetail() {
             <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center", gap: isMobile ? 32 : 64 }}>
 
               {/* Left: wireframe image in rounded card */}
-              <div style={{
-                flexShrink: isMobile ? undefined : 0,
-                width: isMobile ? "100%" : 620,
-                background: "#f1f1f1",
-                borderRadius: 20,
-                overflow: "hidden",
-              }}>
-                <img
-                  src={project.whatILearned.image}
-                  alt="Wireframe"
-                  style={{ width: "100%", display: "block" }}
-                />
-              </div>
+              {project.whatILearned.image && (
+                <div style={{
+                  flexShrink: isMobile ? undefined : 0,
+                  width: isMobile ? "100%" : 620,
+                  background: "#f1f1f1",
+                  borderRadius: 20,
+                  overflow: "hidden",
+                }}>
+                  <img
+                    src={project.whatILearned.image}
+                    alt="Wireframe"
+                    style={{ width: "100%", display: "block" }}
+                  />
+                </div>
+              )}
 
               {/* Right: label + body */}
               <div style={{ flex: 1 }}>
@@ -897,7 +948,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Right: stat circles */}
-            <div style={{ flex: 1, display: "flex", gap: 32, justifyContent: "center", flexWrap: isMobile ? "wrap" : "nowrap", marginTop: isMobile ? 16 : 0 }}>
+            {project.results.stats?.length > 0 && <div style={{ flex: 1, display: "flex", gap: 32, justifyContent: "center", flexWrap: isMobile ? "wrap" : "nowrap", marginTop: isMobile ? 16 : 0 }}>
               {project.results.stats.map((stat, i) => (
                 <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
                   <div style={{
@@ -940,7 +991,7 @@ export default function ProductDetail() {
                   </div>
                 </div>
               ))}
-            </div>
+            </div>}
 
           </div>
         </div>

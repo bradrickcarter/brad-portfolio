@@ -741,6 +741,11 @@ export default function BradPortfolio() {
 
   const projects = [
     {
+      title: "CSafe Smart Repositioning Engine",
+      description: "AI-powered container repositioning tool for CSafe Global's internal logistics team. Demand forecasting, strategy-based recommendations, and a feedback loop that gets smarter every time an operator makes a call.",
+      cover: "/assets/csafe-cover.png",
+    },
+    {
       title: "Heart Failure Care Companion",
       description: "Enrolled patient companion inside MyBSWHealth for newly diagnosed heart failure patients. Daily weight and blood pressure tracking with clinical alert thresholds, symptom triage, and a plain-language education library.",
       cover: "/assets/heart-failure-cover.png",
